@@ -1,0 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties ─────────────────────────────────────── */
+:root {
+  --copper: #c96830;
+  --copper-dim: rgba(201, 104, 48, 0.15);
+  --copper-border: rgba(201, 104, 48, 0.25);
+  --bg-primary: #0e0c0a;
+  --bg-secondary: #141210;
+  --bg-card: #1a1714;
+  --text-muted: #6b645c;
+  --text-secondary: #a89f96;
+}
+
+/* ─── Smooth scroll ──────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--copper-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--copper); }
+
+/* ─── Selection ──────────────────────────────────────────────────── */
+::selection { background: rgba(201, 104, 48, 0.3); color: #f9e4d2; }
+
+/* ─── Wabi-sabi background layers ───────────────────────────────── */
+/*
+  Three layered CSS techniques give a wabi-sabi aged-parchment feel:
+  1. A fixed grainy noise SVG (feTurbulence fractalNoise) — acts as aged paper texture
+  2. Slow-drifting ink-wash radial blobs — organic, asymmetric warmth
+  3. A subtle vignette to darken corners like old paper
+*/
+
+/* Layer 1 — grain / texture (fixed so it doesn't scroll) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='wabi'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.62' numOctaves='6' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23wabi)' opacity='0.07'/%3E%3C/svg%3E");
+  background-size: 700px 700px;
+  mix-blend-mode: overlay;
+}
+
+/* Layer 2 — ink-wash blobs (fixed, animated drift) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    /* top-left deep ink pool */
+    radial-gradient(ellipse 60% 48% at -8% 8%,  rgba(55, 30, 10, 0.65) 0%, transparent 65%),
+    /* right-side warm ember */
+    radial-gradient(ellipse 45% 55% at 108% 52%, rgba(143, 63, 30, 0.22) 0%, transparent 58%),
+    /* bottom-left earthy wash */
+    radial-gradient(ellipse 75% 38% at 10% 102%, rgba(38, 22, 8, 0.6) 0%, transparent 52%),
+    /* subtle mid warmth */
+    radial-gradient(ellipse 28% 28% at 52% 48%,  rgba(90, 45, 15, 0.07) 0%, transparent 50%),
+    /* top-right subtle sumi ink hint */
+    radial-gradient(ellipse 35% 30% at 98% 4%,   rgba(30, 18, 6, 0.4) 0%, transparent 55%);
+  animation: inkDrift 35s ease-in-out infinite alternate;
+}
+
+/* Layer 3 — corner vignette */
+.wabi-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(ellipse 90% 85% at 50% 50%, transparent 40%, rgba(6, 4, 2, 0.55) 100%);
+}
+
+@keyframes inkDrift {
+  0%   { opacity: 0.80; transform: scale(1)    translate(0px,  0px); }
+  33%  { opacity: 0.95; transform: scale(1.02) translate(-6px, 5px); }
+  66%  { opacity: 0.85; transform: scale(0.99) translate(4px, -8px); }
+  100% { opacity: 0.90; transform: scale(1.01) translate(-3px, 3px); }
+}
+
+/* ─── Noise fine grain on top ────────────────────────────────────── */
+.noise-overlay {
+  position: relative;
+}
+
+/* ─── Copper accent line under section titles ─────────────────────── */
+.section-title::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--copper);
+  margin-top: 8px;
+}
+
+/* ─── Animated underline for nav links ───────────────────────────── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--copper);
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* ─── Card hover lift ─────────────────────────────────────────────── */
+.card-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201, 104, 48, 0.3);
+  border-color: rgba(201, 104, 48, 0.3);
+}
+
+/* ─── Stagger entrance animations ────────────────────────────────── */
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 80ms; }
+.stagger > *:nth-child(3) { animation-delay: 160ms; }
+.stagger > *:nth-child(4) { animation-delay: 240ms; }
+.stagger > *:nth-child(5) { animation-delay: 320ms; }
+.stagger > *:nth-child(6) { animation-delay: 400ms; }
+
+/* ─── Tag pill ────────────────────────────────────────────────────── */
+.tag-pill {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono
+    bg-stone-900 border border-stone-800 text-stone-400
+    transition-colors duration-200;
+}
+.tag-pill:hover {
+  border-color: var(--copper-border);
+  color: #e8a570;
+}
+
+/* ─── Timeline dot ────────────────────────────────────────────────── */
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--copper);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(201, 104, 48, 0.2);
+  flex-shrink: 0;
+}
+
+/* ─── Hero gradient mesh ─────────────────────────────────────────── */
+.hero-mesh {
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 40%, rgba(143, 63, 30, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 70%, rgba(201, 104, 48, 0.05) 0%, transparent 55%),
+    transparent;
+}
+
+/* ─── Carousel slide transition ──────────────────────────────────── */
+.carousel-track {
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Hover-reveal arrow buttons ────────────────────────────────── */
+.carousel-arrow {
+  opacity: 0;
+  transition: opacity 0.22s ease, transform 0.22s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+.carousel-arrow.arrow-left  { transform: translateX(10px)  scale(0.88); }
+.carousel-arrow.arrow-right { transform: translateX(-10px) scale(0.88); }
+
+.carousel-wrapper:hover .carousel-arrow {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+.carousel-wrapper:hover .carousel-arrow.arrow-left  { transform: translateX(0) scale(1); }
+.carousel-wrapper:hover .carousel-arrow.arrow-right { transform: translateX(0) scale(1); }
+
+.carousel-arrow:hover {
+  background-color: rgba(201, 104, 48, 0.18) !important;
+  border-color: rgba(201, 104, 48, 0.5) !important;
+  color: #e8a570 !important;
+}
+.carousel-arrow:disabled {
+  opacity: 0.2 !important;
+  cursor: not-allowed;
+}
