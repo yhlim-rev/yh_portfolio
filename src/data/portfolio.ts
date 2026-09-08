@@ -5,19 +5,27 @@ export const siteConfig = {
   name: "Lim Yonghay",
   role: "Software Developer",
   tagline: "Building secure, scalable, and user-friendly web applications with clean code and modern technologies.",
-  email: "limyonghay.dev@gmail.com",
-  phone: "+855 88 123 4567",
+  email: "yh.lim825@gmail.com",
+  phone: "+855 11 234 027",
   location: "Phnom Penh, Cambodia",
-  website: "limyonghay.dev",
+  website: "https://yh-portfolio-two.vercel.app/",
   // Put your photo in /public/avatar.jpg — set to null to show initials placeholder
   avatarImage: "/avatar.jpg",
-  copyright: "© 2025 Lim Yonghay. All rights reserved.",
+  copyright: "© 2026 Lim Yonghay. All rights reserved.",
   socials: {
     github: "https://github.com/limyonghay",
     linkedin: "https://linkedin.com/in/limyonghay",
-    email: "mailto:limyonghay.dev@gmail.com",
+    email: "mailto:yh.lim825@gmail.com",
   },
 };
+
+export const heroImages = [
+  { src: "/photos/image1.jpg",  alt: "Headshot"  },
+  { src: "/photos/image2.jpg",  alt: "Working"   },
+  { src: "/photos/image3.jpg",  alt: "Japan"     },
+  { src: "/photos/image4.jpg",  alt: "Teaching"  },
+  { src: "/photos/image5.jpg",  alt: "Outdoors"  },
+];
 
 export const aboutStats = [
   { icon: "Calendar", label: "Experience", value: "2+ Years" },
@@ -149,6 +157,14 @@ export const skills = [
 ];
 
 export const experience = [
+  {
+    role: "Sales Engineer",
+    company: "Daikin Airconditioning (Cambodia) Co., Ltd.",
+    companyLink: 'https://daikin-airconditioning.com.kh/',
+    period: "Jul 2026 – Present",
+    description:
+      "Managed HVAC project sales, prepared technical proposals, and built strong client relationships with contractors and developers to support successful project delivery.",
+  },
   {
     role: "Software Developer",
     company: "Bikay",
