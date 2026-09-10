@@ -16,12 +16,12 @@ function getPos(rel: number, n: number) {
   const mirror = n - rel;
 
   const slots: Record<string, { x: number; z: number; ry: number; scale: number; opacity: number; zIdx: number }> = {
-    front:    { x:   0, z:  60, ry:   0, scale: 1.00, opacity: 1.00, zIdx: 50 },
-    right:    { x:  78, z:  10, ry: -38, scale: 0.82, opacity: 0.78, zIdx: 40 },
-    farRight: { x: 122, z: -50, ry: -52, scale: 0.66, opacity: 0.42, zIdx: 30 },
-    back:     { x:  85, z:-110, ry: -65, scale: 0.50, opacity: 0.10, zIdx: 10 },
-    farLeft:  { x:-122, z: -50, ry:  52, scale: 0.66, opacity: 0.42, zIdx: 30 },
-    left:     { x: -78, z:  10, ry:  38, scale: 0.82, opacity: 0.78, zIdx: 40 },
+    front:    { x:   0, z: 120, ry:   0, scale: 1.00, opacity: 1.00, zIdx: 50 },
+    right:    { x: 130, z:  30, ry: -40, scale: 0.82, opacity: 0.78, zIdx: 40 },
+    farRight: { x: 210, z: -80, ry: -55, scale: 0.66, opacity: 0.42, zIdx: 30 },
+    back:     { x: 145, z:-180, ry: -65, scale: 0.50, opacity: 0.10, zIdx: 10 },
+    farLeft:  { x:-210, z: -80, ry:  55, scale: 0.66, opacity: 0.42, zIdx: 30 },
+    left:     { x:-130, z:  30, ry:  40, scale: 0.82, opacity: 0.78, zIdx: 40 },
   };
 
   if (rel === 0)      return slots.front;
@@ -75,12 +75,12 @@ export default function HeroPhotoCarousel({ ownerName }: { ownerName: string }) 
   }, [prev, next]);
 
   return (
-    <div className="flex flex-col items-center gap-4 select-none">
+    <div className="flex flex-col items-center gap-4 select-none" onDragStart={(e) => e.preventDefault()}>
 
       {/* ── 3D Stage ─────────────────────────────────────────────── */}
       <div
         className="relative"
-        style={{ width: 280, height: 200, perspective: 700, perspectiveOrigin: "50% 42%" }}
+        style={{ width: 480, height: 420, perspective: 900, perspectiveOrigin: "50% 42%" }}
         onMouseEnter={stopTimer}
         onMouseLeave={startTimer}
       >
@@ -99,18 +99,19 @@ export default function HeroPhotoCarousel({ ownerName }: { ownerName: string }) 
               }}
               style={{
                 position: "absolute",
-                width: 120,
-                height: 160,
+                width: 200,
+                height: 280,
                 top: "50%",
                 left: "50%",
-                marginLeft: -60,
-                marginTop: -80,
+                marginLeft: -100,
+                marginTop: -140,
                 transform: `translateX(${pos.x}px) translateZ(${pos.z}px) rotateY(${pos.ry}deg) scale(${pos.scale})`,
                 opacity: pos.opacity,
                 zIndex: pos.zIdx,
                 transition: "transform 0.6s cubic-bezier(0.4,0,0.2,1), opacity 0.6s ease",
                 cursor: isFront ? "default" : "pointer",
                 willChange: "transform, opacity",
+                userSelect: "none",
               }}
             >
               <div
@@ -135,8 +136,9 @@ export default function HeroPhotoCarousel({ ownerName }: { ownerName: string }) 
                     src={img.src}
                     alt={img.alt}
                     fill
+                    draggable={false}
                     className="object-cover object-top"
-                    sizes="120px"
+                    sizes="200px"
                     priority={i === 0}
                   />
                 ) : (

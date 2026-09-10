@@ -50,7 +50,7 @@ export const education = [
     icon: "BookOpen",
     degree: "Bachelor of Japanese",
     school: "Royal University of Phnom Penh, Institute of Foreign Languages",
-    period: "2023 – Present",
+    period: "2023 – 2026",
   },
   {
     icon: "Plane",
